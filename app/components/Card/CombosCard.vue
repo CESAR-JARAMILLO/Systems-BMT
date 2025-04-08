@@ -24,35 +24,41 @@ const getBeltClasses = (belt: string): string => {
 </script>
 
 <template>
-  <div class="bg-white rounded-lg shadow overflow-hidden flex flex-col h-full">
+  <div
+    v-for="(combo, comboIndex) in category.combos"
+    :key="comboIndex"
+    class="bg-white rounded-lg shadow overflow-hidden flex flex-col h-full text-center"
+  >
     <!-- Category Header -->
     <div class="bg-blue-600 text-white p-4">
-      <h2 class="text-lg font-bold">{{ category.category }}</h2>
+      <h2 class="text-lg font-bold">{{ combo.title }}</h2>
     </div>
     <!-- Category Content -->
     <div class="p-4 flex-grow flex flex-col">
-      <div
-        v-for="(combo, comboIndex) in category.combos"
-        :key="comboIndex"
-        class="mb-4"
-      >
+      <div class="mb-4 w-60 mx-auto">
         <!-- Belt Badge -->
-        <div v-if="combo.belt_requirement" class="mb-2">
+        <div class="mb-2">
           <span
             class="inline-block px-2 py-1 text-xs font-bold rounded-full uppercase"
-            :class="getBeltClasses(combo.belt_requirement)"
+            :class="
+              combo.belt_requirement
+                ? getBeltClasses(combo.belt_requirement)
+                : 'bg-gray-300 text-gray-800'
+            "
           >
-            {{ combo.belt_requirement }} Belt Requirement
+            {{
+              combo.belt_requirement
+                ? combo.belt_requirement + " Belt Requirement"
+                : "No Belt Requirement"
+            }}
           </span>
         </div>
-        <!-- Combo Title -->
-        <h3 class="uppercase font-bold underline mb-2">{{ combo.title }}</h3>
         <!-- Combo Moves -->
-        <ul class="list-disc pl-5">
+        <ul class="list-disc pl-5 text-left">
           <li
             v-for="(move, moveIndex) in combo.moves"
             :key="moveIndex"
-            class="text-sm text-gray-700"
+            class="text-sm text-gray-700 font-semibold"
           >
             {{ move }}
           </li>
